@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+{%block body%}
+
+<div class="container">
+  
+  <div class="card p-2 shadow-lg">
+
+    <form action="{% url 'addrec' %}" method="POST" enctype="multipart/form-data">
+      {%csrf_token%}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Upload Image</label>
+        <input type="file" name="phto" class="form-control" id="exampleInputEmail1"aria-describedby="emailHelp">        
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div>
+
+</div>
+
+{%endblock%}
