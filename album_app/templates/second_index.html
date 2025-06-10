@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Synced Dual Carousel</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <h2 class="text-center"><b>ALBUM DRAFT</b></h2><br>
+    <div class="container-fluid ">
+     
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a href="/add/"><button class="btn btn-primary">Upload</button></a>
+          <!-- <a class="navbar-brand">Navbar</a> -->
+          <form class="d-flex">
+           
+      <h2>Total Image:- <b>{{total}}</b> </h2>
+
+          </form>
+        </div>
+      </nav>
+
+    <div class="container-fluid py-4">
+      <div class="row">
+        <!-- Left Carousel -->
+        <div class="col-md-6 mb-4">
+          <div id="carouselLeft" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for i in left_data %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="/media/{{ i.album_image }}" class="d-block w-100" alt="Left 1">
+              </div>
+              {%endfor%}              
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselLeft" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>           
+          </div>
+        </div>
+
+        <!-- Right Carousel -->
+        <div class="col-md-6 mb-4">
+          <div id="carouselRight" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for j in right_data %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="/media/{{ j.album_image }}" class="d-block w-100" alt="Right 1">
+              </div>
+              {%endfor%}              
+            </div>            
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselRight" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Sync Carousel Script -->
+    <script>
+      const leftCarousel = document.querySelector('#carouselLeft');
+      const rightCarousel = document.querySelector('#carouselRight');
+
+      const bsLeft = new bootstrap.Carousel(leftCarousel);
+      const bsRight = new bootstrap.Carousel(rightCarousel);
+
+      let syncing = false;
+
+      leftCarousel.addEventListener('slide.bs.carousel', (e) => {
+        if (!syncing) {
+          syncing = true;
+          const direction = e.direction === 'left' ? 'next' : 'prev';
+          bsRight[direction]();
+        } else {
+          syncing = false;
+        }
+      });
+
+      rightCarousel.addEventListener('slide.bs.carousel', (e) => {
+        if (!syncing) {
+          syncing = true;
+          const direction = e.direction === 'left' ? 'next' : 'prev';
+          bsLeft[direction]();
+        } else {
+          syncing = false;
+        }
+      });
+    </script>
+  </body>
+</html>

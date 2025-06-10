@@ -19,3 +19,15 @@ def addrec(request):
             album_data.objects.create(album_image=img)
         return redirect('/')
     return redirect('/')
+
+def second_index(request):
+   total_image = album_data.objects.count()
+   data = album_data.objects.all()  # or whatever your queryset is
+   half = len(data) // 2
+   left_data = data[:half]
+   right_data = data[half:]
+   return render(request, 'second_index.html', {
+        'left_data': left_data,
+        'right_data': right_data,
+        'total':total_image
+    })
